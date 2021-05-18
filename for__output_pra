@@ -1,0 +1,24 @@
+CREATE OR REPLACE procedure for_loop_2 (vtable in VARCHAR2, vkw in VARCHAR2) Authid Current_User as
+tblnm VARCHAR2(50);
+v_kw VARCHAR2(50);
+v_count NUMBER;
+strsql_create_view  VARCHAR2(250);
+strsql_table_exist  VARCHAR2(250);
+strsql_drop_view  VARCHAR2(250);
+begin
+    tblnm := vtable;
+		v_kw :=vkw;
+		strsql_create_view := 'CREATE OR REPLACE VIEW temp_view(ky) as select ' ||v_kw|| ' from ' ||tblnm|| ' WITH READ ONLY';
+	  strsql_table_exist := 'select count(*) from user_tables where table_name =upper('''||tblnm||''')';
+		strsql_drop_view := 'DROP VIEW temp_view';
+		execute immediate strsql_table_exist into v_count;
+     if v_count = 1 then
+ 		    execute immediate strsql_create_view;
+    		  for i in (select ky from temp_view) loop
+    				     dbms_output.put_line(i.ky); 
+    			end loop;
+				execute immediate strsql_drop_view;
+ 		else 
+ 		    dbms_output.put_line('search fail！');   
+ 		end if;
+end;
