@@ -1,0 +1,7 @@
+create or replace procedure for_loop as
+begin
+    for i in (select what_name from my_data) loop
+		    dbms_output.put_line(i.what_name);
+    end loop;
+end;
+/

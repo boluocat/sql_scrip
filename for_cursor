@@ -1,0 +1,11 @@
+CREATE OR REPLACE procedure for_loop_1 is
+begin
+    declare
+		cursor the_name is select what_name from my_data;
+    begin
+        for i in the_name loop
+		        dbms_output.put_line(i.what_name);
+        end loop;
+    end;
+end;
+/
