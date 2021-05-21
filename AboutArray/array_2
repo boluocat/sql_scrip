@@ -1,0 +1,30 @@
+declare
+		type array_type IS varray(500) OF VARCHAR2(100);
+		v_array array_type;
+		
+		/*统计输入数组元素个数*/
+		v_count integer;  
+		
+		/*设置待获取的变量*/
+		v_a varchar2(50); 
+		v_b varchar2(50); 
+		v_c varchar2(50); 
+begin
+    v_array := array_type('apple;one;yours,yes','pear;two;theirs','orange;three;ours');  /*输入原始数据，按照数组形式，每个元素内用分号;分隔*/
+		v_count := v_array.count;
+		for i in 1 .. v_count loop
+				for j in 1 .. regexp_count(v_array(i),';') + 1 loop
+				    /*按照输入的列数进行if判断，第一个变量对应每个元素的第一个子元素，依次类推*/
+						if j = 1 then
+						    v_a := regexp_substr(v_array(i),'[^;]+',1,j);
+						elsif j = 2 then
+						    v_b := regexp_substr(v_array(i),'[^;]+',1,j);
+						elsif j = 3 then
+						    v_c := regexp_substr(v_array(i),'[^;]+',1,j);
+						end if;
+				end loop;
+				/*最终输出*/
+			  dbms_output.put_line('select ' ||v_a|| ','||v_b||' from'||v_c|| ';');
+		end loop;
+end;
+/

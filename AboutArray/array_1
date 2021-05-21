@@ -1,0 +1,13 @@
+declare
+    TYPE thearray IS VARRAY(5) OF VARCHAR2(10);
+		total integer;
+		names thearray;
+begin 
+    names := thearray('apple','pear','banana','orange','');
+		total := names.count;
+		
+		for i in 1 .. total loop
+		   dbms_output.put_line('select count from ' || names(i) || ' ;');
+		end loop;
+end;
+/
